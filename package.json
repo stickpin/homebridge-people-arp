@@ -1,0 +1,23 @@
+{
+  "name": "homebridge-people-arp",
+  "version": "0.1.0",
+  "description": "Homebridge plugin that provides details of who is in a Home + History (powered by fakegato) based on IP and MAC Address",
+  "keywords": [
+    "homebridge-plugin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stickpin/homebridge-people-arp.git"
+  },
+  "engines": {
+    "node": ">=0.12.0",
+    "homebridge": ">=0.2.0"
+  },
+  "dependencies": {
+    "moment": "^2.11.2",
+    "node-persist": "2.1.0",
+    "ping": "^0.1.10",
+    "arp-a-x": "^0.5.3",
+    "fakegato-history": "^0.5.0"
+  }
+}
