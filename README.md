@@ -1,4 +1,3 @@
-***
 # homebridge-people-arp
 This is a plugin for [homebridge](https://github.com/nfarina/homebridge). 
 It monitors who is at home, based on their smartphone being seen on the network recently.
@@ -27,16 +26,14 @@ If you use the EVE.app you can also see the presence history of every person-sen
                 "target" : "PetesiPhone",
                 "macAddress" : "de:ef:38:29:0c:28",
                 "threshold" : 3,
-                "checkInterval": 10000,
-                "ignoreReEnterExitSeconds": 0
+                "checkInterval": 10000
             },
             {
                 "name" : "Someone Else",
                 "target" : "192.168.1.68",
                 "macAddress" : "64:2e:fb:8b:41:7b",
                 "threshold" : 3,
-                "checkInterval": 10000,
-                "ignoreReEnterExitSeconds": 0
+                "checkInterval": 10000
             }
         ]
     }
