@@ -71,6 +71,65 @@ function PeopleAccessory(log, config, platform) {
         }
     }
 
+    class TimesOpenedCharacteristic extends Characteristic {
+        constructor(accessory) {
+            super('TimesOpened', 'E863F129-079E-48FF-8F27-9C2605A29F52');
+            this.setProps({
+                format: Characteristic.Formats.UINT32,
+                unit: Characteristic.Units.SECONDS,
+                perms: [
+                    Characteristic.Perms.READ,
+                    Characteristic.Perms.NOTIFY
+                ]
+            });
+        }
+    }
+
+    class ResetTotalCharacteristic extends Characteristic {
+        constructor(accessory) {
+            super('ResetTotal', 'E863F112-079E-48FF-8F27-9C2605A29F52');
+            this.setProps({
+                format: Characteristic.Formats.UINT32,
+                unit: Characteristic.Units.SECONDS,
+                perms: [
+                    Characteristic.Perms.READ,
+                    Characteristic.Perms.NOTIFY,
+                    Characteristic.Perms.WRITE
+                ]
+            });
+        }
+    }
+
+    class Char118Characteristic extends Characteristic {
+        constructor(accessory) {
+            super('Char118', 'E863F118-079E-48FF-8F27-9C2605A29F52');
+            this.setProps({
+                format: Characteristic.Formats.UINT32,
+                unit: Characteristic.Units.SECONDS,
+                perms: [
+                    Characteristic.Perms.READ,
+                    Characteristic.Perms.NOTIFY,
+                    Characteristic.Perms.WRITE
+                ]
+            });
+        }
+    }
+
+    class Char119Characteristic extends Characteristic {
+        constructor(accessory) {
+            super('Char119', 'E863F119-079E-48FF-8F27-9C2605A29F52');
+            this.setProps({
+                format: Characteristic.Formats.UINT32,
+                unit: Characteristic.Units.SECONDS,
+                perms: [
+                    Characteristic.Perms.READ,
+                    Characteristic.Perms.NOTIFY,
+                    Characteristic.Perms.WRITE
+                ]
+            });
+        }
+    }
+
     this.service = new Service.ContactSensor(this.name);
     this.service
         .getCharacteristic(Characteristic.ContactSensorState)
@@ -80,6 +139,10 @@ function PeopleAccessory(log, config, platform) {
     this.service
         .getCharacteristic(LastActivationCharacteristic)
         .on('get', this.getLastActivation.bind(this));
+
+    this.service.addOptionalCharacteristic(TimesOpenedCharacteristic);
+    this.service.addCharacteristic(Char118Characteristic);
+    this.service.addCharacteristic(Char119Characteristic);
 
     this.accessoryService = new Service.AccessoryInformation;
     this.accessoryService
@@ -95,6 +158,8 @@ function PeopleAccessory(log, config, platform) {
             storage: 'fs',
             disableTimer: true
         });
+
+    this.historyService.addCharacteristic(ResetTotalCharacteristic);
 
     this.setDefaults();
 

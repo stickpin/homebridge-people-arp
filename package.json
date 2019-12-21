@@ -1,6 +1,6 @@
 {
   "name": "homebridge-people-arp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Homebridge plugin that provides details of who is in a Home + History (powered by fakegato) based on IP and MAC Address",
   "keywords": [
     "homebridge-plugin"
