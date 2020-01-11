@@ -18,7 +18,6 @@ If you use the EVE.app you can also see the presence history of every person-sen
     {
         "platform": "PeopleARP",
         "threshold" : 3,
-        "cacheDirectory": "./.node-persist/storage",
         "checkInterval": 10000,
         "people" : [
             {
@@ -43,7 +42,6 @@ If you use the EVE.app you can also see the presence history of every person-sen
 | Parameter                  | Note                                                                                                                                                                                         |
 |----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `threshold`                | optional, in minutes, default: 3                                                                                                                                                             |
-| `cacheDirectory`           | optional, default: "./.node-persist/storage"                                                                                                                                                 |
 | `checkInterval`            | optional, in milliseconds, default: 10000. minimal value: 10000                                                                                                                              |
 | `target`                   | may be either a hostname or IP address                                                                                                                                                       |
 | `macAddress`               | mac address of the device                                                                                                                                                                    |

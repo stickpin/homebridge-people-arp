@@ -1,9 +1,8 @@
 var ping = require('ping');
 var arp = require('arp-a-x');
 var moment = require('moment');
-var FakeGatoHistoryService;
 
-var Service, Characteristic, HomebridgeAPI;
+var Service, Characteristic, HomebridgeAPI, FakeGatoHistoryService;
 module.exports = function(homebridge) {
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
@@ -21,11 +20,8 @@ module.exports = function(homebridge) {
 function PeoplePlatform(log, config){
     this.log = log;
     this.threshold = config['threshold'] || 3;
-    this.cacheDirectory = config["cacheDirectory"] || HomebridgeAPI.user.persistPath();
     this.checkInterval = config["checkInterval"] || 10000;
     this.people = config['people'];
-    this.storage = require('node-persist');
-    this.storage.initSync({dir:this.cacheDirectory});
 }
 
 PeoplePlatform.prototype = {
@@ -156,7 +152,9 @@ function PeopleAccessory(log, config, platform) {
         },
         {
             storage: 'fs',
-            disableTimer: true
+            disableTimer: true,
+            path: HomebridgeAPI.user.storagePath() + '/accessories',
+            filename: 'history_' + "hps-" + this.name.toLowerCase() + '.json'
         });
 
     this.historyService.addCharacteristic(ResetTotalCharacteristic);
@@ -181,11 +179,8 @@ PeopleAccessory.prototype.getState = function(callback) {
 }
 
 PeopleAccessory.prototype.getLastActivation = function(callback) {
-    var lastSeenUnix = this.platform.storage.getItemSync('lastConnectionLoss_' + this.target);
-    if (lastSeenUnix) {
-        var lastSeenMoment = moment(lastSeenUnix).unix();
-        callback(null, lastSeenMoment - this.historyService.getInitialTime());
-    }
+    var lastActivation = now - this.historyService.getInitialTime();
+    callback(null, lastActivation);
 }
 
 PeopleAccessory.prototype.identify = function(callback) {
@@ -208,7 +203,6 @@ PeopleAccessory.prototype.arp = function() {
                     if (entry.mac == this.macAddress.toLowerCase()) {
                         if(entry.flag == "0x0") {
                             newState = false;
-                            this.platform.storage.setItemSync('lastConnectionLoss_' + this.target, Date.now());
                         }
                         this.setNewState(newState);
                         setTimeout(PeopleAccessory.prototype.arp.bind(this), this.checkInterval);
