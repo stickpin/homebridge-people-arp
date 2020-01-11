@@ -179,8 +179,11 @@ PeopleAccessory.prototype.getState = function(callback) {
 }
 
 PeopleAccessory.prototype.getLastActivation = function(callback) {
-    var lastActivation = now - this.historyService.getInitialTime();
-    callback(null, lastActivation);
+    if(this.historyService.getInitialTime()) {
+        var now = moment().unix();
+        var lastActivation = now - this.historyService.getInitialTime();
+        callback(null, lastActivation);
+    }
 }
 
 PeopleAccessory.prototype.identify = function(callback) {
