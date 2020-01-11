@@ -52,6 +52,7 @@ function PeopleAccessory(log, config, platform) {
     this.checkInterval = config['checkInterval'] || this.platform.checkInterval;
     this.isDoorClosed = true;
     this.timesOpened = 0;
+    this.lastActivation = 0;
 
     class LastActivationCharacteristic extends Characteristic {
         constructor(accessory) {
@@ -179,11 +180,7 @@ PeopleAccessory.prototype.getState = function(callback) {
 }
 
 PeopleAccessory.prototype.getLastActivation = function(callback) {
-    if(this.historyService.getInitialTime()) {
-        var now = moment().unix();
-        var lastActivation = now - this.historyService.getInitialTime();
-        callback(null, lastActivation);
-    }
+    callback(null, this.lastActivation);
 }
 
 PeopleAccessory.prototype.identify = function(callback) {
@@ -221,6 +218,9 @@ PeopleAccessory.prototype.setNewState = function(newState) {
     if (oldState != newState) {
         this.isDoorClosed = newState;
         this.service.getCharacteristic(Characteristic.ContactSensorState).updateValue(PeopleAccessory.encodeState(newState));
+
+        var now = moment().unix();
+        this.lastActivation = now - this.historyService.getInitialTime();
 
         this.historyService.addEntry(
             {
