@@ -9,8 +9,8 @@ module.exports = function(homebridge) {
     HomebridgeAPI = homebridge;
     FakeGatoHistoryService = require('fakegato-history')(homebridge);
 
-    homebridge.registerPlatform("homebridge-people", "PeopleARP", PeoplePlatform);
-    homebridge.registerAccessory("homebridge-people", "PeopleAccessory", PeopleAccessory);
+    homebridge.registerPlatform("homebridge-people-arp", "PeopleARP", PeoplePlatform);
+    homebridge.registerAccessory("homebridge-people-arp", "PeopleAccessory", PeopleAccessory);
 }
 
 // #######################
